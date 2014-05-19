@@ -21,6 +21,17 @@ use Vegas\Security\OAuth\Exception\AdapterNotInitializedException;
 
 /**
  * Class OAuth
+ *
+ * @method getServiceName()
+ * @method authenticate()
+ * @method setupCredentials(array $credentials)
+ * @method getCurrentUri()
+ * @method setScopes(array $scopes=array())
+ * @method addScope($scope)
+ * @method init()
+ * @method request($path, $method = 'GET', $body = null, array $extraHeaders = array())
+ *
+ *
  * @package Vegas\Security
  */
 class OAuth implements InjectionAwareInterface
