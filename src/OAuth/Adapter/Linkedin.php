@@ -140,16 +140,13 @@ class Linkedin extends AdapterAbstract
             return  $this->service->requestAccessToken($code, $state);
         } elseif ($request->getQuery('go') === 'go') {
             $uri = $this->service->getAuthorizationUri();
-            $this->getDI()->get('eventsManager')->fire('beforeAuthentication', $this->getDI()->get('dispatcher'), array(
+            $this->getDI()->get('eventsManager')->fire('beforeAuthorization', $this->getDI()->get('dispatcher'), array(
                 'uri'   =>  $uri
             ));
 
             return $uri;
         } else {
             $uri = $this->currentUri->getRelativeUri() . "?go=go";
-            $this->getDI()->get('eventsManager')->fire('beforeAuthorization', $this->getDI()->get('dispatcher'), array(
-                'uri'   =>  $uri
-            ));
 
             return $uri;
         }

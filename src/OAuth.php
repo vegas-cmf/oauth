@@ -52,7 +52,7 @@ class OAuth implements InjectionAwareInterface
         //extracts default events manager
         $eventsManager = $this->di->getShared('eventsManager');
         //attaches new event oauth:beforeAuthentication and oauth:beforeAuthorization
-        $eventsManager->attach('oauth:beforeAuthentication', \Vegas\Security\OAuth\EventsManager\Authenticate::beforeAuthentication());
+//        $eventsManager->attach('oauth:beforeAuthentication', \Vegas\Security\OAuth\EventsManager\Authenticate::beforeAuthentication());
         $eventsManager->attach('oauth:beforeAuthorization', \Vegas\Security\OAuth\EventsManager\Authenticate::beforeAuthorization());
         $this->di->set('eventsManager', $eventsManager);
     }
