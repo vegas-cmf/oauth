@@ -111,7 +111,7 @@ abstract class AdapterAbstract implements InjectionAwareInterface
         $this->credentials = new Credentials(
             $credentials['key'],
             $credentials['secret'],
-            $this->getCurrentUri()
+            !isset($credentials['redirect_uri']) ? $this->getCurrentUri() : $credentials['redirect_uri']
         );
     }
 
