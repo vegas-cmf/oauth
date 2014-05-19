@@ -109,7 +109,7 @@ abstract class AdapterAbstract implements InjectionAwareInterface
             throw new InvalidApplicationSecretKeyException();
         }
         if (isset($credentials['redirect_uri'])) {
-            $this->currentUri->setQuery($credentials['redirect_uri']);
+            $this->currentUri->setPath($credentials['redirect_uri']);
         }
         $this->credentials = new Credentials(
             $credentials['key'],
