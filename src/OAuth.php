@@ -98,7 +98,7 @@ class OAuth implements InjectionAwareInterface
     {
         $this->assertAdapterInstance();
 
-        return call_user_func(array($this->adapter, $name), $args);
+        return call_user_func_array(array($this->adapter, $name), $args);
     }
 
     /**

@@ -137,18 +137,7 @@ class Linkedin extends AdapterAbstract
         if (!is_null($code)) {
             $state = $request->getQuery('state', null);
 
-            return  $this->service->requestAccessToken($code, $state);
-        } elseif ($request->getQuery('go') === 'go') {
-            $uri = $this->service->getAuthorizationUri();
-            $this->getDI()->get('eventsManager')->fire('beforeAuthorization', $this->getDI()->get('dispatcher'), array(
-                'uri'   =>  $uri
-            ));
-
-            return $uri;
-        } else {
-            $uri = $this->currentUri->getRelativeUri() . "?go=go";
-
-            return $uri;
+            return $this->service->requestAccessToken($code, $state);
         }
     }
 }
