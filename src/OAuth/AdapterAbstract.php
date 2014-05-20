@@ -242,4 +242,26 @@ abstract class AdapterAbstract implements InjectionAwareInterface
             return false;
         }
     }
+
+    /**
+     * @return $this
+     */
+    public function destroyServiceSession()
+    {
+        $this->sessionStorage->clearToken($this->getServiceName());
+        $this->sessionStorage->clearAuthorizationState($this->getServiceName());
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function destroy()
+    {
+        $this->sessionStorage->clearAllTokens();
+        $this->sessionStorage->clearAllAuthorizationStates();
+
+        return $this;
+    }
 } 
