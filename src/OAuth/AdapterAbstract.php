@@ -13,6 +13,7 @@
 namespace Vegas\Security\OAuth;
 
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Http\Client\CurlClient;
 use Phalcon\DI\InjectionAwareInterface;
 use Phalcon\DiInterface;
 use Vegas\DI\InjectionAwareTrait;
@@ -165,6 +166,7 @@ abstract class AdapterAbstract implements InjectionAwareInterface
     public function init()
     {
         $serviceFactory = new \OAuth\ServiceFactory();
+        $serviceFactory->setHttpClient(new CurlClient());
         $this->service = $serviceFactory->createService(
             $this->getServiceName(), $this->credentials, $this->sessionStorage, $this->scopes
         );

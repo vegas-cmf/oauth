@@ -28,19 +28,6 @@ class Authenticate
     /**
      * @return callable
      */
-//    public static function beforeAuthentication()
-//    {
-//        return function(Event $event, Dispatcher $dispatcher) {
-//            $eventData = $event->getData();
-//            $relativeUri = $eventData['uri'];
-//
-//            return $dispatcher->getDI()->get('response')->redirect($relativeUri, true);
-//        };
-//    }
-
-    /**
-     * @return callable
-     */
     public static function beforeAuthorization()
     {
         return function(Event $event, Dispatcher $dispatcher) {

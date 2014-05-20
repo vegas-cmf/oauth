@@ -74,6 +74,7 @@ class Session implements TokenStorageInterface
         $serializedToken = serialize($token);
         $tokens = $this->sessionScope->get(self::SESSION_TOKEN);
         $tokens[$service] = $serializedToken;
+        $this->sessionScope->set(self::SESSION_TOKEN, $tokens);
 
         return $this;
     }
