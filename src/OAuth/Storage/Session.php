@@ -33,6 +33,15 @@ class Session implements TokenStorageInterface
     protected $sessionScope = null;
 
     /**
+     * @param $serviceName
+     * @return string
+     */
+    private function normalizeServiceName($serviceName)
+    {
+        return strtolower($serviceName);
+    }
+
+    /**
      *
      */
     public function __construct()
@@ -55,6 +64,8 @@ class Session implements TokenStorageInterface
      */
     public function retrieveAccessToken($service)
     {
+        $service = $this->normalizeServiceName($service);
+
         if ($this->hasAccessToken($service)) {
             $tokens = $this->sessionScope->get(self::SESSION_TOKEN);
             return unserialize($tokens[$service]);
@@ -71,6 +82,8 @@ class Session implements TokenStorageInterface
      */
     public function storeAccessToken($service, TokenInterface $token)
     {
+        $service = $this->normalizeServiceName($service);
+
         $serializedToken = serialize($token);
         $tokens = $this->sessionScope->get(self::SESSION_TOKEN);
         $tokens[$service] = $serializedToken;
@@ -86,6 +99,8 @@ class Session implements TokenStorageInterface
      */
     public function hasAccessToken($service)
     {
+        $service = $this->normalizeServiceName($service);
+
         $tokens = $this->sessionScope->get(self::SESSION_TOKEN);
         return isset($tokens[$service]);
     }
@@ -99,6 +114,8 @@ class Session implements TokenStorageInterface
      */
     public function clearToken($service)
     {
+        $service = $this->normalizeServiceName($service);
+
         $tokens = $this->sessionScope->get(self::SESSION_TOKEN);
         if (array_key_exists($service, $tokens)) {
             unset($tokens, $service);
@@ -131,6 +148,8 @@ class Session implements TokenStorageInterface
      */
     public function storeAuthorizationState($service, $state)
     {
+        $service = $this->normalizeServiceName($service);
+
         $states = $this->sessionScope->get(self::SESSION_STATE);
         $states[$service] = $state;
         $this->sessionScope->set(self::SESSION_STATE, $state);
@@ -147,6 +166,8 @@ class Session implements TokenStorageInterface
      */
     public function hasAuthorizationState($service)
     {
+        $service = $this->normalizeServiceName($service);
+
         $states = $this->sessionScope->get(self::SESSION_STATE);
         return isset($states[$service]);
     }
@@ -161,6 +182,8 @@ class Session implements TokenStorageInterface
      */
     public function retrieveAuthorizationState($service)
     {
+        $service = $this->normalizeServiceName($service);
+
         if ($this->hasAuthorizationState($service)) {
             $states = $this->sessionScope->get(self::SESSION_STATE);
             return $states[$service];
@@ -178,6 +201,8 @@ class Session implements TokenStorageInterface
      */
     public function clearAuthorizationState($service)
     {
+        $service = $this->normalizeServiceName($service);
+
         $states = $this->sessionScope->get(self::SESSION_STATE);
         if (array_key_exists($service, $states)) {
             unset($states, $service);

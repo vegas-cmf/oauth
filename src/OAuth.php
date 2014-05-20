@@ -31,7 +31,6 @@ use Vegas\Security\OAuth\Exception\AdapterNotInitializedException;
  * @method init()
  * @method request($path, $method = 'GET', $body = null, array $extraHeaders = array())
  *
- *
  * @package Vegas\Security
  */
 class OAuth implements InjectionAwareInterface
@@ -62,8 +61,7 @@ class OAuth implements InjectionAwareInterface
     {
         //extracts default events manager
         $eventsManager = $this->di->getShared('eventsManager');
-        //attaches new event oauth:beforeAuthentication and oauth:beforeAuthorization
-//        $eventsManager->attach('oauth:beforeAuthentication', \Vegas\Security\OAuth\EventsManager\Authenticate::beforeAuthentication());
+        //attaches new event oauth:beforeAuthorization
         $eventsManager->attach('oauth:beforeAuthorization', \Vegas\Security\OAuth\EventsManager\Authenticate::beforeAuthorization());
         $this->di->set('eventsManager', $eventsManager);
     }

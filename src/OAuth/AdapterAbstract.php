@@ -223,4 +223,13 @@ abstract class AdapterAbstract implements InjectionAwareInterface
 
         return true;
     }
+
+    public function isAuthenticated()
+    {
+        $session = $this->sessionStorage->retrieveAccessToken($this->getServiceName());
+        if (!$session) {
+            return false;
+        }
+        return $session->getEndOfLife() > time();
+    }
 } 
