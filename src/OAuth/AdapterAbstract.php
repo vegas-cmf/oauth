@@ -224,6 +224,11 @@ abstract class AdapterAbstract implements InjectionAwareInterface
         return true;
     }
 
+    /**
+     * Obtains authentication for current service
+     *
+     * @return bool
+     */
     public function isAuthenticated()
     {
         $session = $this->sessionStorage->retrieveAccessToken($this->getServiceName());
