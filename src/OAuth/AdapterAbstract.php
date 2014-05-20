@@ -14,6 +14,7 @@ namespace Vegas\Security\OAuth;
 
 use OAuth\Common\Consumer\Credentials;
 use OAuth\Common\Http\Client\CurlClient;
+use OAuth\Common\Storage\Exception\TokenNotFoundException;
 use Phalcon\DI\InjectionAwareInterface;
 use Phalcon\DiInterface;
 use Vegas\DI\InjectionAwareTrait;
@@ -231,10 +232,14 @@ abstract class AdapterAbstract implements InjectionAwareInterface
      */
     public function isAuthenticated()
     {
-        $session = $this->sessionStorage->retrieveAccessToken($this->getServiceName());
-        if (!$session) {
+        try {
+            $session = $this->sessionStorage->retrieveAccessToken($this->getServiceName());
+            if (!$session) {
+                return false;
+            }
+            return $session->getEndOfLife() > time();
+        } catch (TokenNotFoundException $e) {
             return false;
         }
-        return $session->getEndOfLife() > time();
     }
 } 
