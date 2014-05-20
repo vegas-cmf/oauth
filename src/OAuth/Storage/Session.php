@@ -152,7 +152,7 @@ class Session implements TokenStorageInterface
 
         $states = $this->sessionScope->get(self::SESSION_STATE);
         $states[$service] = $state;
-        $this->sessionScope->set(self::SESSION_STATE, $state);
+        $this->sessionScope->set(self::SESSION_STATE, $states);
 
         return $this;
     }
