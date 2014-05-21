@@ -12,7 +12,6 @@
  
 namespace Vegas\Security\OAuth\Service;
 
-use Vegas\Security\OAuth\Exception\FailedAuthorizationException;
 use Vegas\Security\OAuth\ServiceAbstract;
 
 /**
@@ -106,44 +105,5 @@ class Linkedin extends ServiceAbstract
     public function getServiceName()
     {
         return self::SERVICE_NAME;
-    }
-
-    /**
-     * Sets all permissions, which user will be asked for during authentication process
-     */
-    public function setAllScopes()
-    {
-        $scopes = array();
-        $reflectionClass = new \ReflectionClass(__CLASS__);
-        foreach ($reflectionClass->getConstants() as $constantName => $constantValue) {
-            if (strpos($constantName, 'SCOPE_') !== false) {
-                $scopes = $constantValue;
-            }
-        }
-
-        $this->setScopes($scopes);
-    }
-
-    /**
-     * Authorization process
-     *
-     * @throws \Vegas\Security\OAuth\Exception\FailedAuthorizationException
-     * @return \OAuth\Common\Http\Uri\UriInterface|string
-     */
-    public function authorize()
-    {
-        $this->assertServiceInstance();
-
-        try {
-            $request = $this->di->get('request');
-            $code = $request->getQuery('code', null);
-            if (!is_null($code)) {
-                $state = $request->getQuery('state', null);
-
-                return $this->service->requestAccessToken($code, $state);
-            }
-        } catch (\OAuth\Common\Exception\Exception $ex) {
-            throw new FailedAuthorizationException($ex->getMessage());
-        }
     }
 }

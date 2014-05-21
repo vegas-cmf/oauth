@@ -12,7 +12,6 @@
  
 namespace Vegas\Security\OAuth\EventsManager;
 
-
 use Phalcon\Dispatcher;
 use Phalcon\Events\Event;
 
