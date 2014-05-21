@@ -10,18 +10,18 @@
  * file that was distributed with this source code.
  */
  
-namespace Vegas\Security\OAuth\Adapter;
+namespace Vegas\Security\OAuth\Service;
 
-use Vegas\Security\OAuth\AdapterAbstract;
+use Vegas\Security\OAuth\ServiceAbstract;
 
 /**
  * Class Linkedin
  *
  * @see https://developer.linkedin.com/documents/authentication
  *
- * @package Vegas\Security\OAuth\Adapter
+ * @package Vegas\Security\OAuth\Service
  */
-class Linkedin extends AdapterAbstract
+class Linkedin extends ServiceAbstract
 {
     /**
      * Name of oAuth service

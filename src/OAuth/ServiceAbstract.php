@@ -22,13 +22,12 @@ use Vegas\DI\InjectionAwareTrait;
 use Vegas\Security\OAuth\Exception\InvalidApplicationKeyException;
 use Vegas\Security\OAuth\Exception\InvalidApplicationSecretKeyException;
 use Vegas\Security\OAuth\Exception\ServiceNotInitializedException;
-use Vegas\Security\OAuth\Storage\Session;
 
 /**
  * Class AdapterAbstract
  * @package Vegas\Security\OAuth
  */
-abstract class AdapterAbstract implements InjectionAwareInterface
+abstract class ServiceAbstract implements InjectionAwareInterface
 {
     use InjectionAwareTrait;
 

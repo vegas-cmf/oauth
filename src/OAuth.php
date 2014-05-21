@@ -16,9 +16,7 @@ use OAuth\Common\Storage\TokenStorageInterface;
 use Phalcon\DI\InjectionAwareInterface;
 use Phalcon\DiInterface;
 use Vegas\DI\InjectionAwareTrait;
-use Vegas\Security\OAuth\AdapterAbstract;
-use Vegas\Security\OAuth\Exception\AdapterNotFoundException;
-use Vegas\Security\OAuth\Exception\AdapterNotInitializedException;
+use Vegas\Security\OAuth\Exception\ServiceNotFoundException;
 use Vegas\Security\OAuth\Storage\Session;
 
 /**
@@ -60,19 +58,19 @@ class OAuth implements InjectionAwareInterface
 
     /**
      * @param $adapterName
-     * @return OAuth
-     * @throws OAuth\Exception\AdapterNotFoundException
+     * @return OAuth\ServiceAbstract
+     * @throws OAuth\Exception\ServiceNotFoundException
      */
-    public function obtainAdapterInstance($adapterName)
+    public function obtainServiceInstance($adapterName)
     {
-        $adapterNamespace = __NAMESPACE__ . '\OAuth\Adapter\\' . ucfirst($adapterName);
+        $adapterNamespace = __NAMESPACE__ . '\OAuth\Service\\' . ucfirst($adapterName);
         try {
             $reflectionClass = new \ReflectionClass($adapterNamespace);
             $adapterInstance = $reflectionClass->newInstanceArgs(array($this->getDI(), $this->sessionStorage));
 
             return $adapterInstance;
         } catch (\ReflectionException $ex) {
-            throw new AdapterNotFoundException($adapterName);
+            throw new ServiceNotFoundException($adapterName);
         }
     }
 

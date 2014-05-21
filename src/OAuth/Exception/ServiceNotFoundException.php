@@ -15,12 +15,12 @@ namespace Vegas\Security\OAuth\Exception;
 use Vegas\Security\OAuth\Exception as OAuthException;
 
 /**
- * Class AdapterNotFoundException
+ * Class ServiceNotFoundException
  * @package Vegas\Security\OAuth\Exception
  */
-class AdapterNotFoundException extends OAuthException
+class ServiceNotFoundException extends OAuthException
 {
-    protected $message = 'Adapter \'%s\' does not exist';
+    protected $message = 'Service \'%s\' does not exist';
 
     /**
      * @param string $adapterName
