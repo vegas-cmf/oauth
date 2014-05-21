@@ -12,6 +12,7 @@
  
 namespace Vegas\Security\OAuth\Service;
 
+use Vegas\Security\OAuth\Identity;
 use Vegas\Security\OAuth\ServiceAbstract;
 
 /**
@@ -108,12 +109,16 @@ class Linkedin extends ServiceAbstract
     }
 
     /**
-     * @internal param string $field
-     * @return mixed
+     * @return Identity
      */
     public function getIdentity()
     {
-        $response = $this->service->request('/people/~?format=json');
-        return $response;
+        $response = $this->request('/people/~:(id,first-name,last-name,email-address)?format=json');
+
+        $identity = new Identity($this->getServiceName(), $response['email']);
+        $identity->id = $response['id'];
+        $identity->first_name = $response['firstName'];
+        $identity->last_name = $response['lastName'];
+        return $identity;
     }
 }

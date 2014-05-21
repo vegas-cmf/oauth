@@ -102,7 +102,6 @@ abstract class ServiceAbstract implements InjectionAwareInterface
     abstract public function getServiceName();
 
     /**
-     * @internal param string $field
      * @return mixed
      */
     abstract public function getIdentity();
