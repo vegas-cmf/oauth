@@ -106,4 +106,14 @@ class Linkedin extends ServiceAbstract
     {
         return self::SERVICE_NAME;
     }
+
+    /**
+     * @internal param string $field
+     * @return mixed
+     */
+    public function getIdentity()
+    {
+        $response = $this->service->request('/people/~?format=json');
+        return $response;
+    }
 }

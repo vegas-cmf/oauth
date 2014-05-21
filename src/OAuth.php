@@ -45,18 +45,6 @@ class OAuth implements InjectionAwareInterface
     }
 
     /**
-     * Setups events manager attaching custom events
-     */
-    protected function setupEventsManager()
-    {
-        //extracts default events manager
-        $eventsManager = $this->di->getShared('eventsManager');
-        //attaches new event oauth:beforeAuthorization
-        $eventsManager->attach('oauth:beforeAuthorization', \Vegas\Security\OAuth\EventsManager\Authenticate::beforeAuthorization());
-        $this->di->set('eventsManager', $eventsManager);
-    }
-
-    /**
      * @param $adapterName
      * @return OAuth\ServiceAbstract
      * @throws OAuth\Exception\ServiceNotFoundException

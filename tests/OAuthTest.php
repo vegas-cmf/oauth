@@ -23,21 +23,6 @@ class OAuthTest extends \PHPUnit_Framework_TestCase
         $_SERVER['REQUEST_URI'] = '/login';
     }
 
-    public function testEventsManager()
-    {
-        $di = DI::getDefault();
-        $eventsManager = $di->getShared('eventsManager');
-
-        $this->assertEmpty($eventsManager->getListeners('oauth:beforeAuthorization'));
-
-        $oauth = new OAuth($di);
-
-        $this->assertNotEmpty($eventsManager->getListeners('oauth:beforeAuthorization'));
-
-        $response = $eventsManager->fire('oauth:beforeAuthorization', $di->get('dispatcher'), array('uri' => 'authorization_uri'));
-        $this->assertEquals('authorization_uri', $response->getHeaders()->get('Location'));
-    }
-
     public function testCreateAdapterByItsName()
     {
         $di = DI::getDefault();

@@ -119,4 +119,13 @@ class Google extends ServiceAbstract
     {
         return self::SERVICE_NAME;
     }
+
+    /**
+     * @param string $field
+     * @return mixed
+     */
+    public function getIdentity($field = 'email')
+    {
+
+    }
 }
