@@ -12,6 +12,7 @@
  
 namespace Vegas\Security\OAuth\Service;
 
+use Vegas\Security\OAuth\Exception\FailedAuthorizationException;
 use Vegas\Security\OAuth\ServiceAbstract;
 
 /**
@@ -124,20 +125,25 @@ class Linkedin extends ServiceAbstract
     }
 
     /**
-     * Authentication process
+     * Authorization process
      *
+     * @throws \Vegas\Security\OAuth\Exception\FailedAuthorizationException
      * @return \OAuth\Common\Http\Uri\UriInterface|string
      */
-    public function authenticate()
+    public function authorize()
     {
         $this->assertServiceInstance();
 
-        $request = $this->di->get('request');
-        $code = $request->getQuery('code', null);
-        if (!is_null($code)) {
-            $state = $request->getQuery('state', null);
+        try {
+            $request = $this->di->get('request');
+            $code = $request->getQuery('code', null);
+            if (!is_null($code)) {
+                $state = $request->getQuery('state', null);
 
-            return $this->service->requestAccessToken($code, $state);
+                return $this->service->requestAccessToken($code, $state);
+            }
+        } catch (\OAuth\Common\Exception\Exception $ex) {
+            throw new FailedAuthorizationException($ex->getMessage());
         }
     }
 }

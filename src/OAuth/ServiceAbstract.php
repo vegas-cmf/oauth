@@ -101,11 +101,11 @@ abstract class ServiceAbstract implements InjectionAwareInterface
     abstract public function getServiceName();
 
     /**
-     * Authentication process
+     * Authorization process
      *
      * @return mixed
      */
-    abstract public function authenticate();
+    abstract public function authorize();
 
     /**
      * Setups provider credentials
