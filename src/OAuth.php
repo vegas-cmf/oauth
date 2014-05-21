@@ -12,24 +12,17 @@
  
 namespace Vegas\Security;
 
+use OAuth\Common\Storage\TokenStorageInterface;
 use Phalcon\DI\InjectionAwareInterface;
 use Phalcon\DiInterface;
 use Vegas\DI\InjectionAwareTrait;
 use Vegas\Security\OAuth\AdapterAbstract;
 use Vegas\Security\OAuth\Exception\AdapterNotFoundException;
 use Vegas\Security\OAuth\Exception\AdapterNotInitializedException;
+use Vegas\Security\OAuth\Storage\Session;
 
 /**
  * Class OAuth
- *
- * @method getServiceName()
- * @method authenticate()
- * @method setupCredentials(array $credentials)
- * @method getCurrentUri()
- * @method setScopes(array $scopes=array())
- * @method addScope($scope)
- * @method init()
- * @method request($path, $method = 'GET', $body = null, array $extraHeaders = array())
  *
  * @package Vegas\Security
  */
@@ -38,20 +31,19 @@ class OAuth implements InjectionAwareInterface
     use InjectionAwareTrait;
 
     /**
-     * @var AdapterAbstract
+     * @var TokenStorageInterface
      */
-    private $adapter;
+    protected $sessionStorage = null;
 
     /**
      * @param DiInterface $di
-     * @param AdapterAbstract $adapter
      */
-    public function __construct(DiInterface $di, AdapterAbstract $adapter = null)
+    public function __construct(DiInterface $di)
     {
         $this->setDI($di);
         $this->setupEventsManager();
 
-        $this->adapter = $adapter;
+        $this->sessionStorage = $this->getDefaultSessionStorage();
     }
 
     /**
@@ -67,62 +59,39 @@ class OAuth implements InjectionAwareInterface
     }
 
     /**
-     * @param $name
+     * @param $adapterName
      * @return OAuth
      * @throws OAuth\Exception\AdapterNotFoundException
      */
-    public function setAdapter($name)
+    public function obtainAdapterInstance($adapterName)
     {
-        $adapterNamespace = __NAMESPACE__ . '\OAuth\Adapter\\' . ucfirst($name);
+        $adapterNamespace = __NAMESPACE__ . '\OAuth\Adapter\\' . ucfirst($adapterName);
         try {
             $reflectionClass = new \ReflectionClass($adapterNamespace);
-            $adapterInstance = $reflectionClass->newInstance($this->getDI());
+            $adapterInstance = $reflectionClass->newInstanceArgs(array($this->getDI(), $this->sessionStorage));
 
-            $this->adapter = $adapterInstance;
+            return $adapterInstance;
         } catch (\ReflectionException $ex) {
-            throw new AdapterNotFoundException($name);
+            throw new AdapterNotFoundException($adapterName);
         }
+    }
+
+    /**
+     * @param TokenStorageInterface $sessionStorage
+     * @return $this
+     */
+    public function setSessionStorage(TokenStorageInterface $sessionStorage)
+    {
+        $this->sessionStorage = $sessionStorage;
 
         return $this;
     }
 
     /**
-     * @param $name
-     * @param $args
-     * @throws OAuth\Exception\AdapterNotInitializedException
-     * @return mixed
+     * @return Session
      */
-    public function __call($name, $args)
+    public function getDefaultSessionStorage()
     {
-        $this->assertAdapterInstance();
-
-        return call_user_func_array(array($this->adapter, $name), $args);
-    }
-
-    /**
-     * @return AdapterAbstract
-     */
-    public function getAdapter()
-    {
-        $this->assertAdapterInstance();
-        return $this->adapter;
-    }
-
-    /**
-     * Determines if adapter has been already initialized
-     *
-     * @param bool $throwException
-     * @throws OAuth\Exception\AdapterNotInitializedException
-     * @return bool
-     */
-    protected function assertAdapterInstance($throwException = true)
-    {
-        if (null == $this->adapter) {
-            if ($throwException) {
-                throw new AdapterNotInitializedException();
-            }
-            return false;
-        }
-        return true;
+        return new Session();
     }
 }

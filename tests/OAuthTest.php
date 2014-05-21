@@ -44,17 +44,17 @@ class OAuthTest extends \PHPUnit_Framework_TestCase
 
         $oauth = new OAuth($di);
 
-        $this->assertInstanceOf('\Vegas\Security\OAuth\Adapter\Linkedin', $oauth->setAdapter('linkedin')->getAdapter());
+        $this->assertInstanceOf('\Vegas\Security\OAuth\Adapter\Linkedin', $oauth->obtainAdapterInstance('linkedin'));
         $this->setExpectedException('\Vegas\Security\OAuth\Exception\AdapterNotFoundException');
-        $oauth->setAdapter('google');
+        $oauth->obtainAdapterInstance('fake');
     }
 
-    public function testCreateOAuthWithAdapter()
+    public function testCreateAdapterByItsClass()
     {
         $di = DI::getDefault();
-        $linkedin = new OAuth\Adapter\Linkedin($di);
-        $oauth = new OAuth($di, $linkedin);
+        $oauth = new OAuth($di);
+        $linkedin = new OAuth\Adapter\Linkedin($di, $oauth->getDefaultSessionStorage());
 
-        $this->assertInstanceOf('\Vegas\Security\OAuth\Adapter\Linkedin', $oauth->getAdapter());
+        $this->assertInstanceOf('\Vegas\Security\OAuth\Adapter\Linkedin', $linkedin);
     }
 } 

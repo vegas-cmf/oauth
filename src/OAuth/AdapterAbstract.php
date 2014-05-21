@@ -15,6 +15,7 @@ namespace Vegas\Security\OAuth;
 use OAuth\Common\Consumer\Credentials;
 use OAuth\Common\Http\Client\CurlClient;
 use OAuth\Common\Storage\Exception\TokenNotFoundException;
+use OAuth\Common\Storage\TokenStorageInterface;
 use Phalcon\DI\InjectionAwareInterface;
 use Phalcon\DiInterface;
 use Vegas\DI\InjectionAwareTrait;
@@ -69,8 +70,9 @@ abstract class AdapterAbstract implements InjectionAwareInterface
      * Setups session storage
      *
      * @param DiInterface $di
+     * @param TokenStorageInterface $sessionStorage
      */
-    public function __construct(DiInterface $di)
+    public function __construct(DiInterface $di, TokenStorageInterface $sessionStorage)
     {
         $this->setDI($di);
 
@@ -78,7 +80,18 @@ abstract class AdapterAbstract implements InjectionAwareInterface
         $this->currentUri = $uriFactory->createFromSuperGlobalArray($_SERVER);
         $this->currentUri->setQuery('');
 
-        $this->sessionStorage = new Session();
+        $this->sessionStorage = $sessionStorage;
+    }
+
+    /**
+     * @param TokenStorageInterface $sessionStorage
+     * @return $this
+     */
+    public function setSessionStorage(TokenStorageInterface $sessionStorage)
+    {
+        $this->sessionStorage = $sessionStorage;
+
+        return $this;
     }
 
     /**
@@ -246,21 +259,10 @@ abstract class AdapterAbstract implements InjectionAwareInterface
     /**
      * @return $this
      */
-    public function destroyServiceSession()
+    public function destroySession()
     {
         $this->sessionStorage->clearToken($this->getServiceName());
         $this->sessionStorage->clearAuthorizationState($this->getServiceName());
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function destroy()
-    {
-        $this->sessionStorage->clearAllTokens();
-        $this->sessionStorage->clearAllAuthorizationStates();
 
         return $this;
     }
