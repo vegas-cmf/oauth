@@ -39,7 +39,6 @@ class OAuth implements InjectionAwareInterface
     public function __construct(DiInterface $di)
     {
         $this->setDI($di);
-        $this->setupEventsManager();
 
         $this->sessionStorage = $this->getDefaultSessionStorage();
     }
