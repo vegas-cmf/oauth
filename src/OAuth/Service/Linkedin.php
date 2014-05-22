@@ -115,7 +115,7 @@ class Linkedin extends ServiceAbstract
     {
         $response = $this->request('/people/~:(id,first-name,last-name,email-address)?format=json');
 
-        $identity = new Identity($this->getServiceName(), $response['email']);
+        $identity = new Identity($this->getServiceName(), $response['emailAddress']);
         $identity->id = $response['id'];
         $identity->first_name = $response['firstName'];
         $identity->last_name = $response['lastName'];
