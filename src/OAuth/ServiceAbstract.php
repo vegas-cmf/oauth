@@ -95,6 +95,26 @@ abstract class ServiceAbstract implements InjectionAwareInterface
     }
 
     /**
+     * Returns access token for current service
+     *
+     * @return \OAuth\Common\Token\TokenInterface
+     */
+    public function getAccessToken()
+    {
+        return $this->sessionStorage->retrieveAccessToken($this->getServiceName());
+    }
+
+    /**
+     * Returns authorization state for current service
+     *
+     * @return string
+     */
+    public function getAuthorizationState()
+    {
+        return $this->sessionStorage->retrieveAuthorizationState($this->getServiceName());
+    }
+
+    /**
      * Returns the name of current service
      *
      * @return mixed
