@@ -119,8 +119,8 @@ class Linkedin extends ServiceAbstract
         $identity->id = $response['id'];
         $identity->first_name = $response['firstName'];
         $identity->last_name = $response['lastName'];
-        $identity->picture = $response['picture-url'];
-        $identity->link = $response['public-profile-url'];
+        $identity->picture = !isset($response['pictureUrl']) ? '' : $response['pictureUrl'];
+        $identity->link = $response['publicProfileUrl'];
 
 
         return $identity;
