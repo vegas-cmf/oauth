@@ -12,6 +12,7 @@
  
 namespace Vegas\Security\OAuth\Service;
 
+use Vegas\Security\OAuth\Identity;
 use Vegas\Security\OAuth\ServiceAbstract;
 
 /**
@@ -135,11 +136,19 @@ class Facebook extends ServiceAbstract
     }
 
     /**
-     * @param string $field
-     * @return mixed
+     * @return Identity
      */
-    public function getIdentity($field = 'email')
+    public function getIdentity()
     {
-        // TODO: Implement getIdentity() method.
+        $response = $this->request('/me?fields=id,first_name,last_name,picture,link,email');
+
+        $identity = new Identity($this->getServiceName(), $response['email']);
+        $identity->id = $response['id'];
+        $identity->first_name = $response['first_name'];
+        $identity->last_name = $response['last_name'];
+        $identity->picture = $response['picture']['data']['url'];
+        $identity->link = $response['link'];
+
+        return $identity;
     }
 }

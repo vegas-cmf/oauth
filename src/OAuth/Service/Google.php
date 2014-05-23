@@ -12,6 +12,7 @@
  
 namespace Vegas\Security\OAuth\Service;
 
+use Vegas\Security\OAuth\Identity;
 use Vegas\Security\OAuth\ServiceAbstract;
 
 /**
@@ -121,11 +122,19 @@ class Google extends ServiceAbstract
     }
 
     /**
-     * @param string $field
-     * @return mixed
+     * @return Identity
      */
-    public function getIdentity($field = 'email')
+    public function getIdentity()
     {
+        $response = $this->request('https://www.googleapis.com/oauth2/v1/userinfo');
 
+        $identity = new Identity($this->getServiceName(), $response['email']);
+        $identity->id = $response['id'];
+        $identity->first_name = $response['given_name'];
+        $identity->last_name = $response['family_name'];
+        $identity->picture = $response['picture'];
+        $identity->link = $response['link'];
+
+        return $identity;
     }
 }

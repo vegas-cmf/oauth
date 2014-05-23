@@ -113,12 +113,16 @@ class Linkedin extends ServiceAbstract
      */
     public function getIdentity()
     {
-        $response = $this->request('/people/~:(id,first-name,last-name,email-address)?format=json');
+        $response = $this->request('/people/~:(id,first-name,last-name,email-address,picture-url,public-profile-url)?format=json');
 
         $identity = new Identity($this->getServiceName(), $response['emailAddress']);
         $identity->id = $response['id'];
         $identity->first_name = $response['firstName'];
         $identity->last_name = $response['lastName'];
+        $identity->picture = $response['picture-url'];
+        $identity->link = $response['public-profile-url'];
+
+
         return $identity;
     }
 }
