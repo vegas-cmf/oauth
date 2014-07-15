@@ -30,4 +30,12 @@ class CollectionManagerServiceProvider implements ServiceProviderInterface
             return new \Phalcon\Mvc\Collection\Manager();
         }, true);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDependencies()
+    {
+        return array();
+    }
 } 
