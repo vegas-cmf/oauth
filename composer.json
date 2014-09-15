@@ -22,7 +22,7 @@
         "phalcon/incubator": "dev-master",
         "vegas-cmf/core" : "1.*",
         "vegas-cmf/session" : "1.*",
-        "lusitanian/oauth" : "dev-master"
+        "lusitanian/oauth" : "0.3.*"
     },
     "require-dev": {
         "phpunit/phpunit": "4.0.*"
