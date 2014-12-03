@@ -43,5 +43,38 @@ return array(
             'class' => 'SecurityPlugin',
             'attach' => 'dispatch'
         )
+    ),
+
+    'oauth' =>  array(
+        'linkedin'  =>  array(
+            'key'   =>  '',
+            'secret'    =>  '',
+            'redirect_uri' => '/oauth/linkedin',
+            'scopes' => array(
+                \Vegas\Security\OAuth\Service\Linkedin::SCOPE_FULL_PROFILE,
+                \Vegas\Security\OAuth\Service\Linkedin::SCOPE_EMAIL_ADDRESS
+            )
+        ),
+
+        'facebook'  =>  array(
+            //Codolio - Test
+            'key'   =>  '',
+            'secret'    =>  '',
+            'redirect_uri' => '/oauth/facebook',
+            'scopes' => array(
+                \Vegas\Security\OAuth\Service\Facebook::SCOPE_EMAIL,
+                \Vegas\Security\OAuth\Service\Facebook::SCOPE_USER_ABOUT
+            )
+        ),
+
+        'google'  =>  array(
+            'key'    =>  '',
+            'secret'   =>  '',
+            'redirect_uri' => '/oauth/google',
+            'scopes' => array(
+                \Vegas\Security\OAuth\Service\Google::SCOPE_EMAIL,
+                \Vegas\Security\OAuth\Service\Google::SCOPE_PROFILE
+            )
+        )
     )
 );
